@@ -21,13 +21,15 @@ else:
 # -------------------------------
 def generate_prd(app_name, app_idea, app_type, language):
     prompt = f"""
-    Generate a **Product Requirements Document (PRD)** for the following app idea:
+    You are an expert product manager. Create a **Product Requirements Document (PRD)** 
+    for the following app idea. The PRD should be clear, structured, and tailored 
+    to the app type and description provided.
 
     App Name: {app_name}
     App Type: {app_type}
     Description: {app_idea}
 
-    Format the PRD into structured sections:
+    Structure the PRD with these sections:
     1. Overview
     2. Essential Core Features
     3. Tech Stack
@@ -48,17 +50,25 @@ def generate_prd(app_name, app_idea, app_type, language):
 
 def generate_plan(prd_text, language):
     prompt = f"""
-    Based on the following PRD, create a **step-by-step implementation plan**:
+    You are a senior software architect. Carefully read the PRD below and 
+    generate a **unique, PRD-specific step-by-step implementation plan**.
 
+    --- PRD START ---
     {prd_text}
+    --- PRD END ---
 
-    Break the plan into **phases** (Frontend, Backend, AI Integration, Authentication, Testing, Deployment, Optimization).
-    For each phase, include:
-    - Objectives
-    - Detailed Tasks
-    - Deliverables
+    Rules for the implementation plan:
+    - Break the plan into logical phases (e.g., Frontend, Backend, AI Integration, Authentication, Testing, Deployment, Optimization). 
+      Only include phases that are relevant to THIS PRD.
+    - For each phase, provide:
+      • Objectives  
+      • Detailed Tasks (must reference actual features, APIs, and technologies mentioned in the PRD)  
+      • Deliverables  
+    - Do NOT create generic filler tasks. All tasks must map directly to the PRD.
+    - If the PRD specifies unique tools (e.g., Supabase, Firebase, OCR API, OpenAI), mention them explicitly in tasks.
+    - If the PRD is lightweight, reduce the number of phases but go deeper into tasks.
+    - Ensure the final roadmap looks like a professional execution plan tailored to this project.
 
-    Format it as a structured, professional execution roadmap.
     Language: {language}
     """
     model = genai.GenerativeModel("gemini-1.5-flash")

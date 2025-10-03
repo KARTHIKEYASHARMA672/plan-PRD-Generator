@@ -43,7 +43,7 @@ def generate_prd(app_name, app_idea, app_type, language):
 
     Language: {language}
     """
-    model = genai.GenerativeModel("models/gemini-1.5-flash")
+    model = genai.GenerativeModel("models/gemini-2.5-flash")
     response = model.generate_content(prompt)
     return response.text if response else "⚠️ No response from Gemini."
 
